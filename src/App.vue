@@ -1,5 +1,6 @@
 <template>
   <Header v-if="this.$route.name !== 'login'" />
+  <Navigation v-if="this.$route.name !== 'login'" />
   <router-view />
   <Footer v-if="this.$route.name !== 'login'" />
 </template>
@@ -7,12 +8,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Header from "@/components/Header.vue";
+import Navigation from "@/components/Navigation.vue";
 import Footer from "@/components/Footer.vue";
 
 export default defineComponent({
   name: "Home",
   components: {
     Header,
+    Navigation,
     Footer,
   },
 });

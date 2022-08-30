@@ -1,5 +1,15 @@
 <template>
-  <p>Headerです</p>
+  <div class="container header-container">
+    <div class="header-inner">
+      <router-link to="/" class="header-logo mng-block">
+        <img
+          src="../image/header_logo.png"
+          class="logo-img"
+          alt="Progress Management"
+        />
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,4 +20,26 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.container {
+  background-color: #1464b9;
+}
+
+.header-log {
+  width: 200px;
+  height: 50px;
+}
+
+.logo-img {
+  height: 50px;
+  width: 300px;
+}
+
+.logo-img:hover {
+  background-color: aliceblue;
+}
+
+.mng-block {
+  display: block;
+}
+</style>
