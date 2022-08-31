@@ -38,7 +38,7 @@ export default defineComponent({
   // padding-left: 20px;
   // padding-right: 20px;
   // max-width: 1000px;
-  background: #1464b9;
+  background: #dd0dd6;
   display: flex;
 }
 

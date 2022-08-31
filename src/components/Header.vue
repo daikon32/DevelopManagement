@@ -27,12 +27,11 @@ export default defineComponent({
 
 .header-log {
   width: 200px;
-  height: 50px;
 }
 
 .logo-img {
   height: 50px;
-  width: 300px;
+  vertical-align: top;
 }
 
 .logo-img:hover {
