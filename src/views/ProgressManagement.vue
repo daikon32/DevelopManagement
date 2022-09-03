@@ -36,8 +36,55 @@
             進捗
           </div>
         </div>
+        <div
+          id="gantt-task-list"
+          class="overflow-y-hidden"
+          :style="`height:${calendarViewHeight}px`"
+        >
+          <div
+            v-for="(task, index) in displayTasks"
+            :key="index"
+            class="flex h-10 border-b"
+          >
+            <template v-if="task.cat === 'category'">
+              <div class="flex items-center font-bold w-full text-sm pl-2">
+                {{ task.name }}
+              </div>
+            </template>
+            <template v-else>
+              <div
+                class="border-r flex items-center font-bold w-48 text-sm pl-4"
+              >
+                {{ task.name }}
+              </div>
+              <div
+                class="border-r flex items-center justify-center w-24 text-sm"
+              >
+                {{ task.start_date }}
+              </div>
+              <div
+                class="border-r flex items-center justify-center w-24 text-sm"
+              >
+                {{ task.end_date }}
+              </div>
+              <div
+                class="border-r flex items-center justify-center w-16 text-sm"
+              >
+                {{ task.incharge_user }}
+              </div>
+              <div class="flex items-center justify-center w-12 text-sm">
+                {{ task.percentage }}%
+              </div>
+            </template>
+          </div>
+        </div>
       </div>
-      <div id="gantt-calendar" class="overflow-x-scroll w-1/2">
+      <div
+        id="gantt-calendar"
+        class="overflow-x-scroll overflow-y-hidden border-l"
+        :style="`width:${calendarViewWidth}px`"
+        ref="calendar"
+      >
         <div id="gantt-date" class="h-20">
           <div id="gantt-year-month" class="relative h-8">
             <div v-for="(calendar, index) in calendars" :key="index">
@@ -55,7 +102,15 @@
             <div v-for="(calendar, index) in calendars" :key="index">
               <div v-for="(day, index) in calendar.days" :key="index">
                 <div
-                  class="border-r h-12 absolute flex items-center justify-center flex-col font-bold text-xs"
+                  class="border-r border-b h-12 absolute flex items-center justify-center flex-col font-bold text-xs"
+                  :class="{
+                    'bg-blue-100': day.dayOfWeek === '土',
+                    'bg-red-100': day.dayOfWeek === '日',
+                    'bg-red-600 text-white':
+                      calendar.year === today.year() &&
+                      calendar.month === today.month() &&
+                      day.day === today.date(),
+                  }"
                   :style="`width:${block_size}px;left:${
                     day.block_number * block_size
                   }px`"
@@ -63,6 +118,39 @@
                   <span>{{ day.day }}</span>
                   <span>{{ day.dayOfWeek }}</span>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div id="gantt-height" class="relative">
+            <div v-for="(calendar, index) in calendars" :key="index">
+              <div v-for="(day, index) in calendar.days" :key="index">
+                <div
+                  class="border-r border-b absolute"
+                  :class="{
+                    'bg-blue-100': day.dayOfWeek === '土',
+                    'bg-red-100': day.dayOfWeek === '日',
+                  }"
+                  :style="`width:${block_size}px;left:${
+                    day.block_number * block_size
+                  }px;height:${calendarViewHeight}px`"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="gantt-bar-area"
+          class="relative"
+          :style="`width:${calendarViewWidth}px;height:${calendarViewHeight}px`"
+        >
+          <div v-for="(bar, index) in taskBars" :key="index">
+            <div
+              :style="bar.style"
+              class="rounded-lg absolute h-5 bg-yellow-100"
+              v-if="bar.task.cat === 'task'"
+            >
+              <div class="w-full h-full">
+                <!-- comment -->
               </div>
             </div>
           </div>
@@ -74,14 +162,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { CATEGORIES, TASKS } from "@/data/TestData";
 import moment from "moment";
 
 export default defineComponent({
   name: "ProgressManagement",
   data() {
     return {
-      start_month: "2020-10",
-      end_month: "2021-02",
+      start_month: "2022-05",
+      end_month: "2023-05",
       block_size: 30,
       block_number: 0,
       calendars: [{}],
@@ -89,12 +178,80 @@ export default defineComponent({
       inner_height: 0,
       task_width: 0,
       task_height: 0,
+      position_id: 0,
+      today: moment(),
+      categories: CATEGORIES,
+      tasks: TASKS,
     };
   },
   mounted() {
     this.getCalendar();
     this.getWindowSize();
     window.addEventListener("resize", this.getWindowSize);
+    this.$nextTick(() => {
+      this.todayPosition();
+    });
+  },
+  computed: {
+    calendarViewWidth(): number {
+      return this.inner_width - this.task_width;
+    },
+    calendarViewHeight(): number {
+      return this.inner_height - this.task_height - 48 - 20;
+    },
+    scrollDistance(): number {
+      let start_date = moment(this.start_month);
+      let between_days = this.today.diff(start_date, "days");
+      return (between_days + 1) * this.block_size - this.calendarViewWidth / 2;
+    },
+    displayTasks(): Object[] {
+      let display_task_number = Math.floor(this.calendarViewHeight / 40);
+      return this.lists.slice(
+        this.position_id,
+        this.position_id + display_task_number
+      );
+    },
+    lists(): Object[] {
+      let lists: Object[] = [];
+      this.categories.map((category) => {
+        lists.push({ cat: "category", ...category });
+        this.tasks.map((task) => {
+          if (task.category_id === category.id) {
+            lists.push({ cat: "task", ...task });
+          }
+        });
+      });
+      return lists;
+    },
+    taskBars(): Object[] {
+      let start_date = moment(this.start_month);
+      let top = 10;
+      let left;
+      let between;
+      let start;
+      let style;
+      return this.displayTasks.map((task) => {
+        style = {};
+        if ((task as any).cat === "task") {
+          let date_from = moment((task as any).start_date);
+          let date_to = moment((task as any).end_date);
+          between = date_to.diff(date_from, "days");
+          between++;
+          start = date_from.diff(start_date, "days");
+          left = start * this.block_size;
+          style = {
+            top: `${top}px`,
+            left: `${left}px`,
+            width: `${this.block_size * between}px`,
+          };
+        }
+        top = top + 40;
+        return {
+          style,
+          task,
+        };
+      });
+    },
   },
   methods: {
     getDays(year: string, month: string, block_number: number) {
@@ -142,9 +299,11 @@ export default defineComponent({
     getWindowSize() {
       this.inner_width = window.innerWidth;
       this.inner_height = window.innerHeight;
-      console.log(this.$refs.task);
-      // this.task_width = this.$refs.task.offsetWidth;
-      // this.task_height = this.$refs.task.offsetHeight;
+      this.task_width = (this.$refs.task as any).offsetWidth;
+      this.task_height = (this.$refs.task as any).offsetHeight;
+    },
+    todayPosition() {
+      (this.$refs.calendar as any).scrollLeft = this.scrollDistance;
     },
   },
 });
