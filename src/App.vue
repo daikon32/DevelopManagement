@@ -1,8 +1,8 @@
 <template>
-  <Header v-if="this.$route.name !== 'login'" />
-  <Navigation v-if="this.$route.name !== 'login'" />
-  <router-view />
-  <Footer v-if="this.$route.name !== 'login'" />
+    <Header v-if="$route.name !== 'login'" />
+    <Navigation v-if="$route.name !== 'login'" />
+    <router-view />
+    <Footer v-if="$route.name !== 'login'" class="footer" />
 </template>
 
 <script lang="ts">
@@ -33,4 +33,5 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
 </style>
