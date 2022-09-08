@@ -34,10 +34,6 @@ export default defineComponent({
   vertical-align: top;
 }
 
-.logo-img:hover {
-  background-color: aliceblue;
-}
-
 .mng-block {
   display: block;
 }
