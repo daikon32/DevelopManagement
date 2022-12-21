@@ -32,15 +32,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.container {
-  margin: 0 auto;
-  padding-left: 10px;
-  padding-left: 300px;
-  padding-right: 20px;
-  height: 50px;
-  background-color: #1464b9;
-  max-width: 100%;
-}
+  .container{
+    margin: 0 auto;
+    padding-left: 20%;
+    padding-right: 20px;
+    height:50px;
+    background-color: #1464b9;
+    max-width: 100%;
+    text-align: left;
+  }
 
 .footer-container {
   display: inline-block;

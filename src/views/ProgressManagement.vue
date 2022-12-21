@@ -149,6 +149,7 @@
               class="absolute h-5 bg-purple-400"
               v-if="bar.task.cat === 'task'"
               @mousedown="mouseDownMove"
+
             >
               <div class="w-full h-full">
                 <!-- comment -->
@@ -309,6 +310,7 @@ export default defineComponent({
     mouseDownMove() {
       console.log("mouseDownMove");
     },
+
   },
 });
 </script>
