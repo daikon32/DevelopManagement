@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
   },
   {
-    path: "/ProgressManagement",
+    path: "/progressManagement",
     name: "progress-management",
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/ProgressManagement.vue"),
@@ -17,6 +17,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "login",
     component: () =>
       import(/* webpackChunkName: "login" */ "@/views/Login.vue"),
+  },
+  {
+    path: "/inquiry",
+    name: "inquiry",
+    component: () =>
+      import(/* webpackChunkName: "inquiry" */ "@/views/Inquiry.vue"),
   },
 ];
 
