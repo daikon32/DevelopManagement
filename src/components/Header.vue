@@ -23,6 +23,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .container {
   background-color: #1464b9;
+  max-width: 100%;
 }
 
 .header-log {
@@ -32,6 +33,10 @@ export default defineComponent({
 .logo-img {
   height: 50px;
   vertical-align: top;
+}
+
+.logo-img:hover {
+  background-color: aliceblue;
 }
 
 .mng-block {
