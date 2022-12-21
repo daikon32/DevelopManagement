@@ -40,6 +40,7 @@ export default defineComponent({
   background: #323339;
   display: flex;
   justify-content: center;
+  max-width:100%;
 }
 
 .nav-container {

@@ -34,11 +34,12 @@ export default defineComponent({
 <style scoped lang="scss">
   .container{
     margin: 0 auto;
-    padding-left: 10px;
-    padding-left: 300px;
+    padding-left: 20%;
     padding-right: 20px;
     height:50px;
     background-color: #1464b9;
+    max-width: 100%;
+    text-align: left;
   }
 
   .footer-container{

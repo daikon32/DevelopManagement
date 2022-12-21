@@ -23,6 +23,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .container {
   background-color: #1464b9;
+  max-width: 100%;
 }
 
 .header-log {
