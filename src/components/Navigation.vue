@@ -36,7 +36,7 @@ export default defineComponent({
   padding-left: 10px;
   padding-left: 20px;
   padding-right: 20px;
-  // max-width: 10000px;
+  max-width: 100%;
   background: #323339;
   display: flex;
   justify-content: center;
@@ -54,14 +54,14 @@ export default defineComponent({
   min-width: 150px;
 }
 
-.navbar a{
+.navbar a {
   color: aliceblue;
   text-decoration: none;
   display: block;
   padding: 0.6rem 0;
 }
 
-.navbar a:hover{
+.navbar a:hover {
   background: #1464b9;
 }
 </style>

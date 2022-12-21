@@ -146,8 +146,10 @@
           <div v-for="(bar, index) in taskBars" :key="index">
             <div
               :style="bar.style"
-              class="rounded-lg absolute h-5 bg-yellow-100"
+              class="absolute h-5 bg-purple-400"
               v-if="bar.task.cat === 'task'"
+              @mousedown="mouseDownMove"
+
             >
               <div class="w-full h-full">
                 <!-- comment -->
@@ -305,6 +307,10 @@ export default defineComponent({
     todayPosition() {
       (this.$refs.calendar as any).scrollLeft = this.scrollDistance;
     },
+    mouseDownMove() {
+      console.log("mouseDownMove");
+    },
+
   },
 });
 </script>

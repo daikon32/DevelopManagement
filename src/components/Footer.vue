@@ -9,7 +9,7 @@
         </li>
       </ul>
     </div>
-    <span class="projectName">{{projectName}}</span>
+    <span class="projectName">{{ projectName }}</span>
   </div>
 </template>
 
@@ -18,16 +18,16 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Footer",
-  data(){
-    return{
-      footerObj:[
-        { name: "資料", to: "/document" },
+  data() {
+    return {
+      footerObj: [
+        { name: "資料文ちゃん見えてる", to: "/document" },
         { name: "ＦＡＱ", to: "/faq" },
         { name: "問い合わせ", to: "/inquiry" },
-    ],
-    projectName:"🅟ProgressManagement"
-      }
-    }
+      ],
+      projectName: "🅟ProgressManagement",
+    };
+  },
 });
 </script>
 
@@ -42,25 +42,25 @@ export default defineComponent({
     text-align: left;
   }
 
-  .footer-container{
-    display: inline-block;
-    min-width: 50px;
-  }
+.footer-container {
+  display: inline-block;
+  min-width: 50px;
+}
 
-  .footer-nav{
-    list-style-type: none;
-  }
+.footer-nav {
+  list-style-type: none;
+}
 
-  .footer-nav a{
-    font-size: 10px;
-    text-decoration: none;
-    color: aliceblue;
-  }
+.footer-nav a {
+  font-size: 10px;
+  text-decoration: none;
+  color: aliceblue;
+}
 
-  .projectName{
-    padding-right: 10%;
-    float: right;
-    color: rgb(196, 25, 227);
-    font-size: 13px;
-  }
+.projectName {
+  padding-right: 10%;
+  float: right;
+  color: rgb(196, 25, 227);
+  font-size: 13px;
+}
 </style>
